@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,6 +29,7 @@ public class BudgetController {
     }
 
     @GetMapping("/{id}")
+    @ResponseBody
     private Budget getById(@PathVariable(value="id") Long id) {
         return budgetRepository.findById(id).get();
     }
@@ -36,5 +37,15 @@ public class BudgetController {
     @PostMapping
     private Budget newBudget(@RequestBody Budget budget) {
         return budgetRepository.save(budget);
+    }
+
+    @PutMapping("/{id}")
+    private Budget editBudget(@PathVariable(value="id") Long id, @RequestBody Budget budget) {
+        Budget oldBudget = budgetRepository.findById(id).get();
+        if (budget.getName()!=null || !budget.getName().equals("")) oldBudget.setName(budget.getName());
+        if (budget.getCompany()!=null || !budget.getCompany().equals("")) oldBudget.setCompany(budget.getCompany());
+        if (budget.getEmail()!=null || !budget.getEmail().equals("")) oldBudget.setEmail(budget.getEmail());
+        if (budget.getNumberPhone()!=null || !budget.getNumberPhone().equals("")) oldBudget.setNumberPhone(budget.getNumberPhone());
+        return budgetRepository.save(oldBudget);
     }
 }
