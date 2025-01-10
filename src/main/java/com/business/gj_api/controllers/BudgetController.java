@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.business.gj_api.handlers.EmailHandler;
 import com.business.gj_api.models.Budget;
 import com.business.gj_api.repositories.BudgetRepository;
 
@@ -21,6 +22,8 @@ public class BudgetController {
     
     @Autowired
     private BudgetRepository budgetRepository;
+
+    private EmailHandler emailHandler = new EmailHandler();
 
     @GetMapping
     @ResponseBody
@@ -36,7 +39,9 @@ public class BudgetController {
 
     @PostMapping
     private Budget newBudget(@RequestBody Budget budget) {
-        return budgetRepository.save(budget);
+        Budget savedBudget = budgetRepository.save(budget);
+        emailHandler.sendEmailToNewBudget(savedBudget);
+        return savedBudget;
     }
 
     @PutMapping("/{id}")
