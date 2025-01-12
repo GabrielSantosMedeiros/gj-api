@@ -1,19 +1,38 @@
 package com.business.gj_api.models;
 
+import java.time.LocalDateTime;
+
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.apache.commons.validator.routines.EmailValidator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 
+import lombok.NoArgsConstructor;
+
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+@Table(name="budgets")
+@NoArgsConstructor
 public class Budget {
     
-    
-    private String id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String company;
     private String email;
     private String numberPhone;
+    @CreatedDate
+    private LocalDateTime createdAt;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
     public String getName() {
@@ -47,5 +66,8 @@ public class Budget {
         } else {
             throw new IllegalArgumentException("número de telefone: " + numberPhone + " inválido.");
         }
+    }
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }
