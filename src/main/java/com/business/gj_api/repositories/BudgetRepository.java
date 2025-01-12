@@ -1,11 +1,9 @@
 package com.business.gj_api.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.business.gj_api.models.Budget;
 
-@Repository
-public interface BudgetRepository extends JpaRepository<Budget, Long>{
+public interface BudgetRepository extends MongoRepository<Budget, String> {
     
 }

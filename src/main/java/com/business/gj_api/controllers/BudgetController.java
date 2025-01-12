@@ -33,7 +33,7 @@ public class BudgetController {
 
     @GetMapping("/{id}")
     @ResponseBody
-    private Budget getById(@PathVariable(value="id") Long id) {
+    private Budget getById(@PathVariable(value="id") String id) {
         return budgetRepository.findById(id).get();
     }
 
@@ -45,7 +45,7 @@ public class BudgetController {
     }
 
     @PutMapping("/{id}")
-    private Budget editBudget(@PathVariable(value="id") Long id, @RequestBody Budget budget) throws Exception {
+    private Budget editBudget(@PathVariable(value="id") String id, @RequestBody Budget budget) throws Exception {
         Budget oldBudget = budgetRepository.findById(id).get();
         if (budget.getName()!=null || !budget.getName().equals("")) oldBudget.setName(budget.getName());
         if (budget.getCompany()!=null || !budget.getCompany().equals("")) oldBudget.setCompany(budget.getCompany());
