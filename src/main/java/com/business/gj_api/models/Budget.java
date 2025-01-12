@@ -1,5 +1,8 @@
 package com.business.gj_api.models;
 
+import org.apache.commons.validator.routines.EmailValidator;
+
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +22,8 @@ public class Budget {
     private String email;
     private String numberPhone;
 
+    private static EmailValidator emailValidator = EmailValidator.getInstance();
+    
     public Long getId() {
         return id;
     }
@@ -37,13 +42,21 @@ public class Budget {
     public String getEmail() {
         return email;
     }
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmail(String email) throws Exception {
+        if(emailValidator.isValid(email)) {
+            this.email = email;
+        } else {
+            throw new Exception("O email: " + email + " não é válido.");
+        }
     }
     public String getNumberPhone() {
         return numberPhone;
     }
     public void setNumberPhone(String numberPhone) {
-        this.numberPhone = numberPhone;
+        if(PhoneNumberUtil.getInstance().isPossibleNumber(numberPhone, "BR")) {
+            this.numberPhone = numberPhone;
+        } else {
+            throw new IllegalArgumentException("número de telefone: " + numberPhone + "inválido.");
+        }
     }
 }

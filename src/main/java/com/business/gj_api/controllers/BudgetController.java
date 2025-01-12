@@ -45,7 +45,7 @@ public class BudgetController {
     }
 
     @PutMapping("/{id}")
-    private Budget editBudget(@PathVariable(value="id") Long id, @RequestBody Budget budget) {
+    private Budget editBudget(@PathVariable(value="id") Long id, @RequestBody Budget budget) throws Exception {
         Budget oldBudget = budgetRepository.findById(id).get();
         if (budget.getName()!=null || !budget.getName().equals("")) oldBudget.setName(budget.getName());
         if (budget.getCompany()!=null || !budget.getCompany().equals("")) oldBudget.setCompany(budget.getCompany());
