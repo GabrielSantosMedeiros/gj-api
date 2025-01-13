@@ -41,6 +41,7 @@ public class BudgetController {
     private Budget newBudget(@RequestBody Budget budget) {
         Budget savedBudget = budgetRepository.save(budget);
         emailHandler.sendEmailToNewBudget(savedBudget);
+        emailHandler.notifySeller(savedBudget);
         return savedBudget;
     }
 

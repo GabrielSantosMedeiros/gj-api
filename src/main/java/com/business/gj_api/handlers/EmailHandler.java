@@ -40,9 +40,28 @@ public class EmailHandler {
     public void sendEmailToNewBudget(Budget budget) {
         SimpleMailMessage message = new SimpleMailMessage(this.mailMessage);
         message.setTo(budget.getEmail());
+        message.setSubject("Formulário recebido.");
         message.setText(
-            "Caro " + budget.getName() + ", sua solicitação de orçamento foi recebida com sucesso!" + "/nEm breve entraremos em contato pelo whatsapp"
+            budget.getName() + 
+            ", sua solicitação de orçamento foi recebida com sucesso!" + 
+            "\nEm breve entraremos em contato pelo whatsapp."
         );
+        try {
+            mailSender.send(message);
+        } catch (MailException exception) {
+            System.err.println(exception.getMessage());
+        }
+    }
+
+    public void notifySeller(Budget budget) {
+        SimpleMailMessage message = new SimpleMailMessage(this.mailMessage);
+        message.setTo("jauafelipe345@gmail.com");
+        message.setSubject("Novo formulário salvo");
+        message.setText("Informações para contato:"  + 
+            "\nNOME: " + budget.getName() + 
+            "\nEMPRESA: " + budget.getCompany() + 
+            "\nTELEFONE: " + budget.getNumberPhone() + 
+            "\nEMAIL: " + budget.getEmail());
         try {
             mailSender.send(message);
         } catch (MailException exception) {
